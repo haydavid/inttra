@@ -50,21 +50,21 @@ public class login {
         HomePage.lnkYourAccount(webDriver).click();
     }
 
-    @When("^enters valid email (.*) and valid password (.*)$")
-    public void enters_valid_email_as_and_password_as(String email, String password) throws Throwable {
+    @And("^enters valid email (.*) and valid password (.*)$")
+    public void enters_valid_email_as_and_password(String email, String password) throws Throwable {
         AccountPage.txtEmail(webDriver).sendKeys(email);
         AccountPage.txtPassword(webDriver).sendKeys(password);
         AccountPage.btnSignIn(webDriver).click();
     }
 
-    @When("^enters invalid email as (.*) and password as (.*)$")
+    @And("^enters invalid email as (.*) and password as (.*)$")
     public void enters_invalid_email_and_password(String email, String password) throws Throwable {
         AccountPage.txtEmail(webDriver).sendKeys(email);
         AccountPage.txtPassword(webDriver).sendKeys(password);
         AccountPage.btnSignIn(webDriver).click();
     }
 
-    @When("^enters valid email and valid password$")
+    @And("^enters valid email and valid password$")
     public void enters_valid_email_and_valid_password(DataTable table) throws Throwable {
         Map<String, String> loginCredentials = table.asMap(String.class, String.class);
         AccountPage.txtEmail(webDriver).sendKeys(loginCredentials.get("email"));
@@ -85,7 +85,7 @@ public class login {
         AccountPage.btnSignIn(webDriver).click();
     }
 
-    @Then("^Message displayed Login Success$")
+    @Then("^Login success$")
     public void messageDisplayedLoginSuccess() throws Throwable {
         ScreenShot.capture(webDriver, scenario);
         assertEquals("Your account", HomePage.lnkYourAccount(webDriver).getText());
@@ -93,13 +93,14 @@ public class login {
         AccountPage.spanSignOut(webDriver).click();
     }
 
-    @Then("^Messsage displayed login failed$")
+    @Then("^Login failed$")
     public void messsage_displayed_Login_Failed() throws Throwable {
         try {
             AccountPage.divSiginPage(webDriver);
+            ScreenShot.capture(webDriver, scenario);
         } catch (NoSuchElementException e) {
+            ScreenShot.capture(webDriver, scenario);
             fail("The user should still be on the login page but was not.");
         }
-        ScreenShot.capture(webDriver, scenario);
     }
 }
